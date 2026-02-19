@@ -9,12 +9,6 @@ interface MonthlyChartProps {
   summary: SpendingSummary;
 }
 
-const CHART_TYPES: { type: ChartType; label: string }[] = [
-  { type: 'bar', label: 'Bar' },
-  { type: 'line', label: 'Line' },
-  { type: 'structured', label: 'Structured' },
-];
-
 const SVG_W = 400;
 const SVG_H = 140;
 const PAD = { top: 20, right: 12, bottom: 24, left: 44 };
@@ -44,20 +38,25 @@ export default function MonthlyChart({ summary }: MonthlyChartProps) {
       {/* Header + switcher */}
       <div className="flex items-center justify-between mb-5">
         <h3 className="text-base font-semibold text-slate-900">Monthly Spending (Last 6 Months)</h3>
-        <div className="flex items-center gap-1 border border-slate-200 rounded-xl p-1 bg-slate-50">
-          {CHART_TYPES.map(({ type, label }) => (
-            <button
-              key={type}
-              onClick={() => setChartType(type)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                chartType === type
-                  ? 'bg-indigo-600 text-white shadow-sm'
-                  : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200'
-              }`}
-            >
-              {label}
-            </button>
-          ))}
+        <div style={{ display: 'flex', gap: '4px', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '4px', background: '#f8fafc' }}>
+          <button
+            onClick={() => setChartType('bar')}
+            style={{ padding: '6px 12px', borderRadius: '8px', fontSize: '12px', fontWeight: 600, border: 'none', cursor: 'pointer', background: chartType === 'bar' ? '#4f46e5' : 'transparent', color: chartType === 'bar' ? '#fff' : '#64748b' }}
+          >
+            Bar
+          </button>
+          <button
+            onClick={() => setChartType('line')}
+            style={{ padding: '6px 12px', borderRadius: '8px', fontSize: '12px', fontWeight: 600, border: 'none', cursor: 'pointer', background: chartType === 'line' ? '#4f46e5' : 'transparent', color: chartType === 'line' ? '#fff' : '#64748b' }}
+          >
+            Line
+          </button>
+          <button
+            onClick={() => setChartType('structured')}
+            style={{ padding: '6px 12px', borderRadius: '8px', fontSize: '12px', fontWeight: 600, border: 'none', cursor: 'pointer', background: chartType === 'structured' ? '#4f46e5' : 'transparent', color: chartType === 'structured' ? '#fff' : '#64748b' }}
+          >
+            Structured
+          </button>
         </div>
       </div>
 
