@@ -3,18 +3,16 @@
 import { useState } from 'react';
 import { SpendingSummary } from '@/types/expense';
 import { formatCurrency, formatMonthYear } from '@/utils/formatters';
-import { BarChart2, TrendingUp, AlignLeft } from 'lucide-react';
-
 type ChartType = 'bar' | 'line' | 'structured';
 
 interface MonthlyChartProps {
   summary: SpendingSummary;
 }
 
-const CHART_TYPES: { type: ChartType; label: string; Icon: React.ElementType }[] = [
-  { type: 'bar', label: 'Bar', Icon: BarChart2 },
-  { type: 'line', label: 'Line', Icon: TrendingUp },
-  { type: 'structured', label: 'Structured', Icon: AlignLeft },
+const CHART_TYPES: { type: ChartType; label: string }[] = [
+  { type: 'bar', label: 'Bar' },
+  { type: 'line', label: 'Line' },
+  { type: 'structured', label: 'Structured' },
 ];
 
 const SVG_W = 400;
@@ -47,19 +45,17 @@ export default function MonthlyChart({ summary }: MonthlyChartProps) {
       <div className="flex items-center justify-between mb-5">
         <h3 className="text-base font-semibold text-slate-900">Monthly Spending (Last 6 Months)</h3>
         <div className="flex items-center gap-1 border border-slate-200 rounded-xl p-1 bg-slate-50">
-          {CHART_TYPES.map(({ type, label, Icon }) => (
+          {CHART_TYPES.map(({ type, label }) => (
             <button
               key={type}
               onClick={() => setChartType(type)}
-              title={label}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                 chartType === type
                   ? 'bg-indigo-600 text-white shadow-sm'
                   : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200'
               }`}
             >
-              <Icon className="w-3.5 h-3.5" />
-              <span>{label}</span>
+              {label}
             </button>
           ))}
         </div>
