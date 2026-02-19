@@ -25,6 +25,7 @@ export function getSpendingSummary(expenses: Expense[]): SpendingSummary {
     Entertainment: 0,
     Shopping: 0,
     Bills: 0,
+    Savings: 0,
     Other: 0,
   };
 

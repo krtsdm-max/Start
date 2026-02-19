@@ -4,6 +4,7 @@ export type Category =
   | 'Entertainment'
   | 'Shopping'
   | 'Bills'
+  | 'Savings'
   | 'Other';
 
 export const CATEGORIES: Category[] = [
@@ -12,6 +13,7 @@ export const CATEGORIES: Category[] = [
   'Entertainment',
   'Shopping',
   'Bills',
+  'Savings',
   'Other',
 ];
 
@@ -21,6 +23,7 @@ export const CATEGORY_COLORS: Record<Category, string> = {
   Entertainment: '#a855f7',
   Shopping: '#ec4899',
   Bills: '#ef4444',
+  Savings: '#10b981',
   Other: '#6b7280',
 };
 
@@ -30,6 +33,7 @@ export const CATEGORY_ICONS: Record<Category, string> = {
   Entertainment: '🎬',
   Shopping: '🛍️',
   Bills: '📄',
+  Savings: '🏦',
   Other: '📦',
 };
 
