@@ -60,11 +60,17 @@ export interface FilterState {
   dateTo: string;
 }
 
+export interface MonthlyDataItem {
+  month: string;
+  total: number;
+  byCategory: Partial<Record<Category, number>>;
+}
+
 export interface SpendingSummary {
   total: number;
   monthlyTotal: number;
   topCategory: Category | null;
   byCategory: Record<Category, number>;
   recentExpenses: Expense[];
-  monthlyData: { month: string; total: number }[];
+  monthlyData: MonthlyDataItem[];
 }

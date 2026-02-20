@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { SpendingSummary } from '@/types/expense';
+import { SpendingSummary, CATEGORY_COLORS, Category, CATEGORIES } from '@/types/expense';
 import { formatCurrency, formatMonthYear } from '@/utils/formatters';
 import { BarChart2, TrendingUp, AlignLeft } from 'lucide-react';
 
@@ -187,95 +187,124 @@ export default function MonthlyChart({ summary }: MonthlyChartProps) {
             </svg>
           )}
 
-          {/* ── STRUCTURED BAR chart ──────────────────────── */}
+          {/* ── STRUCTURED (stacked) BAR chart ─────────────── */}
           {chartType === 'structured' && (
-            <svg
-              viewBox={`0 0 ${SVG_W} ${SVG_H}`}
-              className="w-full"
-              style={{ height: '176px' }}
-              aria-label="Monthly spending structured bar chart"
-            >
-              {/* Grid lines + y-axis labels */}
-              {ticks.map((t, i) => {
-                const y = yPos(t, maxAmount);
-                return (
-                  <g key={i}>
-                    <line
-                      x1={PAD.left} y1={y} x2={SVG_W - PAD.right} y2={y}
-                      stroke={t === 0 ? '#cbd5e1' : '#e2e8f0'}
-                      strokeWidth={t === 0 ? 1.5 : 1}
-                      strokeDasharray={t === 0 ? undefined : '4 3'}
-                    />
-                    <text
-                      x={PAD.left - 6} y={y + 4}
-                      textAnchor="end" fontSize="9" fill="#94a3b8"
-                    >
-                      {t === 0 ? '0' : t >= 1000 ? `${(t / 1000).toFixed(1)}k` : Math.round(t)}
-                    </text>
-                  </g>
-                );
-              })}
+            <div>
+              <svg
+                viewBox={`0 0 ${SVG_W} ${SVG_H}`}
+                className="w-full"
+                style={{ height: '176px' }}
+                aria-label="Monthly spending stacked bar chart"
+              >
+                {/* Grid lines + y-axis labels */}
+                {ticks.map((t, i) => {
+                  const y = yPos(t, maxAmount);
+                  return (
+                    <g key={i}>
+                      <line
+                        x1={PAD.left} y1={y} x2={SVG_W - PAD.right} y2={y}
+                        stroke={t === 0 ? '#cbd5e1' : '#e2e8f0'}
+                        strokeWidth={t === 0 ? 1.5 : 1}
+                        strokeDasharray={t === 0 ? undefined : '4 3'}
+                      />
+                      <text
+                        x={PAD.left - 6} y={y + 4}
+                        textAnchor="end" fontSize="9" fill="#94a3b8"
+                      >
+                        {t === 0 ? '0' : t >= 1000 ? `${(t / 1000).toFixed(1)}k` : Math.round(t)}
+                      </text>
+                    </g>
+                  );
+                })}
 
-              {/* Bars with value labels */}
-              {monthlyData.map((item, i) => {
-                const cx = xCenter(i);
-                const barW = slotW * 0.55;
-                const barH = (item.total / maxAmount) * CHART_H;
-                const barY = PAD.top + CHART_H - barH;
-                const isCurrent = item.month === currentMonth;
+                {/* Stacked bars */}
+                {monthlyData.map((item, i) => {
+                  const cx = xCenter(i);
+                  const barW = slotW * 0.55;
+                  const isCurrent = item.month === currentMonth;
 
-                return (
-                  <g key={item.month}>
-                    {/* Background track */}
-                    <rect
-                      x={cx - barW / 2}
-                      y={PAD.top}
-                      width={barW}
-                      height={CHART_H}
-                      rx="4"
-                      fill="#f1f5f9"
-                    />
-                    {/* Filled bar */}
-                    {item.total > 0 && (
+                  // Build stacked segments from category data
+                  const segments = CATEGORIES
+                    .filter((cat) => (item.byCategory[cat] || 0) > 0)
+                    .map((cat) => ({ category: cat, amount: item.byCategory[cat]! }));
+
+                  let yOffset = PAD.top + CHART_H; // start from bottom
+
+                  return (
+                    <g key={item.month}>
+                      {/* Background track */}
                       <rect
                         x={cx - barW / 2}
-                        y={barY}
+                        y={PAD.top}
                         width={barW}
-                        height={Math.max(barH, 4)}
+                        height={CHART_H}
                         rx="4"
-                        fill={isCurrent ? '#6366f1' : '#a5b4fc'}
+                        fill="#f1f5f9"
                       />
-                    )}
-                    {/* Value label above bar */}
-                    {item.total > 0 && (
+                      {/* Stacked category segments */}
+                      {segments.map((seg, si) => {
+                        const segH = (seg.amount / maxAmount) * CHART_H;
+                        yOffset -= segH;
+                        const isFirst = si === 0;
+                        const isLast = si === segments.length - 1;
+                        return (
+                          <rect
+                            key={seg.category}
+                            x={cx - barW / 2}
+                            y={yOffset}
+                            width={barW}
+                            height={Math.max(segH, 2)}
+                            rx={isFirst || isLast ? 3 : 0}
+                            fill={CATEGORY_COLORS[seg.category]}
+                            opacity={isCurrent ? 1 : 0.75}
+                          />
+                        );
+                      })}
+                      {/* Value label above bar */}
+                      {item.total > 0 && (
+                        <text
+                          x={cx}
+                          y={Math.max(yOffset - 4, PAD.top + 8)}
+                          textAnchor="middle"
+                          fontSize="8"
+                          fill="#6b7280"
+                          fontWeight="600"
+                        >
+                          {item.total >= 1000
+                            ? `${(item.total / 1000).toFixed(1)}k`
+                            : Math.round(item.total)}
+                        </text>
+                      )}
+                      {/* Month label */}
                       <text
                         x={cx}
-                        y={Math.max(barY - 4, PAD.top + 8)}
+                        y={PAD.top + CHART_H + 16}
                         textAnchor="middle"
-                        fontSize="8"
-                        fill={isCurrent ? '#4338ca' : '#6b7280'}
-                        fontWeight="600"
+                        fontSize="9"
+                        fill={isCurrent ? '#6366f1' : '#94a3b8'}
+                        fontWeight={isCurrent ? '600' : '400'}
                       >
-                        {item.total >= 1000
-                          ? `${(item.total / 1000).toFixed(1)}k`
-                          : Math.round(item.total)}
+                        {formatMonthYear(item.month).split(' ')[0]}
                       </text>
-                    )}
-                    {/* Month label */}
-                    <text
-                      x={cx}
-                      y={PAD.top + CHART_H + 16}
-                      textAnchor="middle"
-                      fontSize="9"
-                      fill={isCurrent ? '#6366f1' : '#94a3b8'}
-                      fontWeight={isCurrent ? '600' : '400'}
-                    >
-                      {formatMonthYear(item.month).split(' ')[0]}
-                    </text>
-                  </g>
-                );
-              })}
-            </svg>
+                    </g>
+                  );
+                })}
+              </svg>
+              {/* Category legend */}
+              <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 justify-center">
+                {CATEGORIES.filter((cat) =>
+                  monthlyData.some((m) => (m.byCategory[cat] || 0) > 0)
+                ).map((cat) => (
+                  <div key={cat} className="flex items-center gap-1.5">
+                    <div
+                      className="w-2.5 h-2.5 rounded-sm"
+                      style={{ background: CATEGORY_COLORS[cat] }}
+                    />
+                    <span className="text-xs text-slate-500">{cat}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           )}
         </>
       )}

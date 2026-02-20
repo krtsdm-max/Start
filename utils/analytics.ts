@@ -42,14 +42,17 @@ export function getSpendingSummary(expenses: Expense[]): SpendingSummary {
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, 5);
 
-  // Build monthly data for last 6 months
+  // Build monthly data for last 6 months (with per-category breakdowns)
   const monthlyMap: Record<string, number> = {};
+  const monthlyCatMap: Record<string, Partial<Record<Category, number>>> = {};
   expenses.forEach((e) => {
     try {
       const date = parseISO(e.date);
       if (!isValid(date)) return;
       const key = format(date, 'yyyy-MM');
       monthlyMap[key] = (monthlyMap[key] || 0) + e.amount;
+      if (!monthlyCatMap[key]) monthlyCatMap[key] = {};
+      monthlyCatMap[key][e.category] = (monthlyCatMap[key][e.category] || 0) + e.amount;
     } catch {
       // skip invalid dates
     }
@@ -65,6 +68,7 @@ export function getSpendingSummary(expenses: Expense[]): SpendingSummary {
   const monthlyData = months.map((m) => ({
     month: m,
     total: monthlyMap[m] || 0,
+    byCategory: monthlyCatMap[m] || {},
   }));
 
   return { total, monthlyTotal, topCategory, byCategory, recentExpenses, monthlyData };
