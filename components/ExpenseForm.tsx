@@ -145,7 +145,7 @@ export default function ExpenseForm({ initialData, onSubmit, onCancel, isInline 
               className={`flex flex-col items-center gap-1 p-2.5 rounded-xl text-xs font-medium transition-all duration-200 ${
                 formData.category === cat
                   ? 'bg-[#1d1d1f] text-white shadow-sm'
-                  : 'bg-[#f5f5f7] text-[#6e6e73] hover:bg-[#e5e5ea]'
+                  : 'bg-white border border-black/[0.08] text-[#6e6e73] hover:border-black/20 hover:text-[#1d1d1f]'
               }`}
             >
               <span className="text-lg">{CATEGORY_ICONS[cat]}</span>
