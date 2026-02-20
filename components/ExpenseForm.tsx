@@ -144,7 +144,7 @@ export default function ExpenseForm({ initialData, onSubmit, onCancel, isInline 
               onClick={() => handleChange('category', cat)}
               className={`flex flex-col items-center gap-1 p-2.5 rounded-xl text-xs font-medium transition-all duration-200 ${
                 formData.category === cat
-                  ? 'bg-[#1d1d1f] text-white shadow-sm'
+                  ? 'bg-indigo-600 text-white shadow-sm'
                   : 'bg-white border border-black/[0.08] text-[#6e6e73] hover:border-black/20 hover:text-[#1d1d1f]'
               }`}
             >
@@ -200,7 +200,7 @@ export default function ExpenseForm({ initialData, onSubmit, onCancel, isInline 
           className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 ${
             submitted && !isInline
               ? 'bg-green-500 text-white cursor-default'
-              : 'bg-[#1d1d1f] text-white hover:bg-black/80 shadow-sm'
+              : 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm'
           }`}
         >
           {submitted && !isInline ? (

@@ -28,7 +28,7 @@ export default function Navigation() {
           {/* Desktop nav */}
           <nav className="hidden sm:flex items-center gap-0.5">
             {navItems.map(({ href, label, icon: Icon }) => {
-              const isActive = href === '/' ? pathname === '/' : pathname.startsWith(href);
+              const isActive = pathname === href;
               return (
                 <Link
                   key={href}
@@ -49,7 +49,7 @@ export default function Navigation() {
           {/* Mobile nav */}
           <nav className="flex sm:hidden items-center gap-0.5">
             {navItems.map(({ href, label, icon: Icon }) => {
-              const isActive = href === '/' ? pathname === '/' : pathname.startsWith(href);
+              const isActive = pathname === href;
               return (
                 <Link
                   key={href}
