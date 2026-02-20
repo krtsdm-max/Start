@@ -3,7 +3,15 @@
 import { useState } from 'react';
 import { SpendingSummary } from '@/types/expense';
 import { formatCurrency, formatMonthYear } from '@/utils/formatters';
+import { BarChart2, TrendingUp, AlignLeft } from 'lucide-react';
+
 type ChartType = 'bar' | 'line' | 'structured';
+
+const CHART_TYPES: { type: ChartType; label: string; Icon: React.ElementType }[] = [
+  { type: 'bar', label: 'Bar', Icon: BarChart2 },
+  { type: 'line', label: 'Line', Icon: TrendingUp },
+  { type: 'structured', label: 'Structured', Icon: AlignLeft },
+];
 
 interface MonthlyChartProps {
   summary: SpendingSummary;
@@ -38,25 +46,22 @@ export default function MonthlyChart({ summary }: MonthlyChartProps) {
       {/* Header + switcher */}
       <div className="flex items-center justify-between mb-5">
         <h3 className="text-base font-semibold text-slate-900">Monthly Spending (Last 6 Months)</h3>
-        <div style={{ display: 'flex', gap: '4px', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '4px', background: '#f8fafc' }}>
-          <button
-            onClick={() => setChartType('bar')}
-            style={{ padding: '6px 12px', borderRadius: '8px', fontSize: '12px', fontWeight: 600, border: 'none', cursor: 'pointer', background: chartType === 'bar' ? '#4f46e5' : 'transparent', color: chartType === 'bar' ? '#fff' : '#64748b' }}
-          >
-            Bar
-          </button>
-          <button
-            onClick={() => setChartType('line')}
-            style={{ padding: '6px 12px', borderRadius: '8px', fontSize: '12px', fontWeight: 600, border: 'none', cursor: 'pointer', background: chartType === 'line' ? '#4f46e5' : 'transparent', color: chartType === 'line' ? '#fff' : '#64748b' }}
-          >
-            Line
-          </button>
-          <button
-            onClick={() => setChartType('structured')}
-            style={{ padding: '6px 12px', borderRadius: '8px', fontSize: '12px', fontWeight: 600, border: 'none', cursor: 'pointer', background: chartType === 'structured' ? '#4f46e5' : 'transparent', color: chartType === 'structured' ? '#fff' : '#64748b' }}
-          >
-            Structured
-          </button>
+        <div className="flex items-center gap-1 border border-slate-200 rounded-xl p-1 bg-slate-50">
+          {CHART_TYPES.map(({ type, label, Icon }) => (
+            <button
+              key={type}
+              onClick={() => setChartType(type)}
+              title={label}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                chartType === type
+                  ? 'bg-indigo-600 text-white shadow-sm'
+                  : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200'
+              }`}
+            >
+              <Icon className="w-3.5 h-3.5" />
+              <span>{label}</span>
+            </button>
+          ))}
         </div>
       </div>
 
