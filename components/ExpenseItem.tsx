@@ -25,8 +25,8 @@ export default function ExpenseItem({ expense, onDelete, onUpdate }: ExpenseItem
 
   if (isEditing) {
     return (
-      <div className="bg-white rounded-2xl border border-indigo-200 shadow-sm p-5">
-        <h4 className="text-sm font-semibold text-slate-700 mb-4">Edit Expense</h4>
+      <div className="bg-white rounded-2xl shadow-[0_2px_16px_rgba(0,0,0,0.08)] p-5">
+        <h4 className="text-sm font-semibold text-[#1d1d1f] mb-4">Edit Expense</h4>
         <ExpenseForm
           initialData={expense}
           onSubmit={handleUpdate}
@@ -37,12 +37,12 @@ export default function ExpenseItem({ expense, onDelete, onUpdate }: ExpenseItem
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:border-slate-200 transition-all group">
+    <div className="bg-white rounded-2xl shadow-[0_1px_8px_rgba(0,0,0,0.06)] hover:shadow-[0_4px_20px_rgba(0,0,0,0.1)] transition-all duration-300 group">
       <div className="flex items-center gap-4 p-4">
-        {/* Category dot */}
+        {/* Category icon */}
         <div
           className="w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0"
-          style={{ backgroundColor: `${color}20` }}
+          style={{ backgroundColor: `${color}18` }}
         >
           {CATEGORY_ICONS[expense.category]}
         </div>
@@ -50,36 +50,36 @@ export default function ExpenseItem({ expense, onDelete, onUpdate }: ExpenseItem
         {/* Info */}
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2">
-            <p className="text-sm font-medium text-slate-900 truncate">{expense.description}</p>
-            <span className="text-base font-bold text-slate-900 shrink-0">
+            <p className="text-sm font-medium text-[#1d1d1f] truncate">{expense.description}</p>
+            <span className="text-base font-semibold text-[#1d1d1f] shrink-0 tabular-nums">
               {formatCurrency(expense.amount)}
             </span>
           </div>
           <div className="flex items-center gap-2 mt-0.5">
             <span
-              className="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-full"
-              style={{ backgroundColor: `${color}20`, color }}
+              className="inline-flex items-center text-[11px] font-medium px-2 py-0.5 rounded-full"
+              style={{ backgroundColor: `${color}18`, color }}
             >
               {expense.category}
             </span>
-            <span className="text-xs text-slate-400">{formatDate(expense.date)}</span>
+            <span className="text-xs text-[#a1a1a6]">{formatDate(expense.date)}</span>
           </div>
         </div>
 
         {/* Actions */}
-        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 shrink-0">
           {showDeleteConfirm ? (
             <>
               <button
                 onClick={() => onDelete(expense.id)}
-                className="p-1.5 rounded-lg bg-rose-500 text-white hover:bg-rose-600 transition-colors"
+                className="p-1.5 rounded-full bg-red-500 text-white hover:bg-red-600 transition-colors"
                 title="Confirm delete"
               >
                 <Check className="w-3.5 h-3.5" />
               </button>
               <button
                 onClick={() => setShowDeleteConfirm(false)}
-                className="p-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors"
+                className="p-1.5 rounded-full bg-[#f5f5f7] text-[#6e6e73] hover:bg-[#e5e5ea] transition-colors"
                 title="Cancel"
               >
                 <X className="w-3.5 h-3.5" />
@@ -89,14 +89,14 @@ export default function ExpenseItem({ expense, onDelete, onUpdate }: ExpenseItem
             <>
               <button
                 onClick={() => setIsEditing(true)}
-                className="p-1.5 rounded-lg text-slate-400 hover:bg-indigo-50 hover:text-indigo-600 transition-colors"
+                className="p-1.5 rounded-full text-[#a1a1a6] hover:bg-[#f5f5f7] hover:text-[#1d1d1f] transition-all"
                 title="Edit expense"
               >
                 <Pencil className="w-3.5 h-3.5" />
               </button>
               <button
                 onClick={() => setShowDeleteConfirm(true)}
-                className="p-1.5 rounded-lg text-slate-400 hover:bg-rose-50 hover:text-rose-600 transition-colors"
+                className="p-1.5 rounded-full text-[#a1a1a6] hover:bg-red-50 hover:text-red-500 transition-all"
                 title="Delete expense"
               >
                 <Trash2 className="w-3.5 h-3.5" />

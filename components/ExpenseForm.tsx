@@ -90,30 +90,30 @@ export default function ExpenseForm({ initialData, onSubmit, onCancel, isInline 
     <form onSubmit={handleSubmit} className="space-y-5" noValidate>
       {/* Date */}
       <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1.5">
-          Date <span className="text-rose-500">*</span>
+        <label className="block text-[13px] font-medium text-[#1d1d1f] mb-1.5">
+          Date <span className="text-red-500">*</span>
         </label>
         <input
           type="date"
           value={formData.date}
           onChange={(e) => handleChange('date', e.target.value)}
           max={getTodayString()}
-          className={`w-full px-3 py-2.5 rounded-xl border text-slate-900 text-sm transition-colors ${
+          className={`w-full px-3.5 py-2.5 rounded-xl text-[#1d1d1f] text-sm transition-all ${
             errors.date
-              ? 'border-rose-400 bg-rose-50 focus:ring-rose-300'
-              : 'border-slate-200 bg-white focus:border-indigo-400 focus:ring-indigo-100'
+              ? 'bg-red-50 border border-red-300 focus:ring-red-200'
+              : 'bg-[#f5f5f7] border border-transparent focus:border-black/20 focus:ring-black/10'
           } focus:outline-none focus:ring-2`}
         />
-        {errors.date && <p className="mt-1 text-xs text-rose-600">{errors.date}</p>}
+        {errors.date && <p className="mt-1 text-xs text-red-500">{errors.date}</p>}
       </div>
 
       {/* Amount */}
       <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1.5">
-          Amount (€) <span className="text-rose-500">*</span>
+        <label className="block text-[13px] font-medium text-[#1d1d1f] mb-1.5">
+          Amount (€) <span className="text-red-500">*</span>
         </label>
         <div className="relative">
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-medium">
+          <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#6e6e73] text-sm font-medium">
             €
           </span>
           <input
@@ -123,29 +123,29 @@ export default function ExpenseForm({ initialData, onSubmit, onCancel, isInline 
             placeholder="0.00"
             min="0.01"
             step="0.01"
-            className={`w-full pl-7 pr-3 py-2.5 rounded-xl border text-slate-900 text-sm transition-colors ${
+            className={`w-full pl-8 pr-3.5 py-2.5 rounded-xl text-[#1d1d1f] text-sm transition-all ${
               errors.amount
-                ? 'border-rose-400 bg-rose-50 focus:ring-rose-300'
-                : 'border-slate-200 bg-white focus:border-indigo-400 focus:ring-indigo-100'
+                ? 'bg-red-50 border border-red-300 focus:ring-red-200'
+                : 'bg-[#f5f5f7] border border-transparent focus:border-black/20 focus:ring-black/10'
             } focus:outline-none focus:ring-2`}
           />
         </div>
-        {errors.amount && <p className="mt-1 text-xs text-rose-600">{errors.amount}</p>}
+        {errors.amount && <p className="mt-1 text-xs text-red-500">{errors.amount}</p>}
       </div>
 
       {/* Category */}
       <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1.5">Category</label>
+        <label className="block text-[13px] font-medium text-[#1d1d1f] mb-1.5">Category</label>
         <div className="grid grid-cols-3 gap-2">
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
               type="button"
               onClick={() => handleChange('category', cat)}
-              className={`flex flex-col items-center gap-1 p-2.5 rounded-xl border text-xs font-medium transition-all ${
+              className={`flex flex-col items-center gap-1 p-2.5 rounded-xl text-xs font-medium transition-all duration-200 ${
                 formData.category === cat
-                  ? 'border-indigo-500 bg-indigo-50 text-indigo-700 shadow-sm'
-                  : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50'
+                  ? 'bg-[#1d1d1f] text-white shadow-sm'
+                  : 'bg-[#f5f5f7] text-[#6e6e73] hover:bg-[#e5e5ea]'
               }`}
             >
               <span className="text-lg">{CATEGORY_ICONS[cat]}</span>
@@ -157,8 +157,8 @@ export default function ExpenseForm({ initialData, onSubmit, onCancel, isInline 
 
       {/* Description */}
       <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1.5">
-          Description <span className="text-rose-500">*</span>
+        <label className="block text-[13px] font-medium text-[#1d1d1f] mb-1.5">
+          Description <span className="text-red-500">*</span>
         </label>
         <input
           type="text"
@@ -166,19 +166,19 @@ export default function ExpenseForm({ initialData, onSubmit, onCancel, isInline 
           onChange={(e) => handleChange('description', e.target.value)}
           placeholder="What did you spend on?"
           maxLength={200}
-          className={`w-full px-3 py-2.5 rounded-xl border text-slate-900 text-sm transition-colors ${
+          className={`w-full px-3.5 py-2.5 rounded-xl text-[#1d1d1f] text-sm transition-all ${
             errors.description
-              ? 'border-rose-400 bg-rose-50 focus:ring-rose-300'
-              : 'border-slate-200 bg-white focus:border-indigo-400 focus:ring-indigo-100'
+              ? 'bg-red-50 border border-red-300 focus:ring-red-200'
+              : 'bg-[#f5f5f7] border border-transparent focus:border-black/20 focus:ring-black/10'
           } focus:outline-none focus:ring-2`}
         />
         <div className="mt-1 flex justify-between">
           {errors.description ? (
-            <p className="text-xs text-rose-600">{errors.description}</p>
+            <p className="text-xs text-red-500">{errors.description}</p>
           ) : (
             <span />
           )}
-          <p className="text-xs text-slate-400 ml-auto">{formData.description.length}/200</p>
+          <p className="text-xs text-[#a1a1a6] ml-auto">{formData.description.length}/200</p>
         </div>
       </div>
 
@@ -188,7 +188,7 @@ export default function ExpenseForm({ initialData, onSubmit, onCancel, isInline 
           <button
             type="button"
             onClick={onCancel}
-            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 text-sm font-medium hover:bg-slate-50 transition-colors"
+            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-[#f5f5f7] text-[#1d1d1f] text-sm font-medium hover:bg-[#e5e5ea] transition-all duration-200"
           >
             <X className="w-4 h-4" />
             Cancel
@@ -197,10 +197,10 @@ export default function ExpenseForm({ initialData, onSubmit, onCancel, isInline 
         <button
           type="submit"
           disabled={submitted && !isInline}
-          className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all ${
+          className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 ${
             submitted && !isInline
-              ? 'bg-emerald-500 text-white cursor-default'
-              : 'bg-indigo-600 text-white hover:bg-indigo-700 active:bg-indigo-800 shadow-sm'
+              ? 'bg-green-500 text-white cursor-default'
+              : 'bg-[#1d1d1f] text-white hover:bg-black/80 shadow-sm'
           }`}
         >
           {submitted && !isInline ? (

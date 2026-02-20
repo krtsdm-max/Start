@@ -14,9 +14,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased bg-slate-50">
+      <body className="antialiased bg-[#f5f5f7]">
         <Navigation />
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-12">
+        <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-16">
           {children}
         </main>
       </body>

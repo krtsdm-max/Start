@@ -42,20 +42,20 @@ export default function MonthlyChart({ summary }: MonthlyChartProps) {
   const ticks = [0, 0.25, 0.5, 0.75, 1].map((t) => maxAmount * t);
 
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+    <div className="bg-white rounded-2xl p-6 shadow-[0_2px_16px_rgba(0,0,0,0.06)]">
       {/* Header + switcher */}
       <div className="flex items-center justify-between mb-5">
-        <h3 className="text-base font-semibold text-slate-900">Monthly Spending (Last 6 Months)</h3>
-        <div className="flex items-center gap-1 border border-slate-200 rounded-xl p-1 bg-slate-50">
+        <h3 className="text-[15px] font-semibold text-[#1d1d1f]">Monthly Spending (Last 6 Months)</h3>
+        <div className="flex items-center gap-0.5 bg-[#f5f5f7] rounded-xl p-1">
           {CHART_TYPES.map(({ type, label, Icon }) => (
             <button
               key={type}
               onClick={() => setChartType(type)}
               title={label}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-[8px] text-xs font-medium transition-all duration-200 ${
                 chartType === type
-                  ? 'bg-indigo-600 text-white shadow-sm'
-                  : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200'
+                  ? 'bg-white text-[#1d1d1f] shadow-sm'
+                  : 'text-[#6e6e73] hover:text-[#1d1d1f]'
               }`}
             >
               <Icon className="w-3.5 h-3.5" />
@@ -66,7 +66,7 @@ export default function MonthlyChart({ summary }: MonthlyChartProps) {
       </div>
 
       {!hasData ? (
-        <div className="flex items-center justify-center h-40 text-slate-400 text-sm">
+        <div className="flex items-center justify-center h-40 text-[#a1a1a6] text-sm">
           No expense data yet
         </div>
       ) : (
@@ -84,8 +84,8 @@ export default function MonthlyChart({ summary }: MonthlyChartProps) {
                         {formatCurrency(item.total)}
                       </div>
                       <div
-                        className={`w-full rounded-t-md transition-all duration-500 ${
-                          isCurrent ? 'bg-indigo-500' : 'bg-indigo-200 group-hover:bg-indigo-300'
+                        className={`w-full rounded-t-[4px] transition-all duration-500 ${
+                          isCurrent ? 'bg-[#1d1d1f]' : 'bg-[#d2d2d7] group-hover:bg-[#a1a1a6]'
                         }`}
                         style={{ height: `${Math.max(heightPercent, item.total > 0 ? 4 : 0)}%` }}
                       />

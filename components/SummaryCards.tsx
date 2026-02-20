@@ -1,6 +1,6 @@
 'use client';
 
-import { TrendingUp, TrendingDown, DollarSign, Calendar, Tag, Receipt } from 'lucide-react';
+import { DollarSign, Calendar, Tag, Receipt } from 'lucide-react';
 import { SpendingSummary } from '@/types/expense';
 import { formatCurrency } from '@/utils/formatters';
 import { CATEGORY_ICONS } from '@/types/expense';
@@ -17,18 +17,12 @@ export default function SummaryCards({ summary, expenseCount }: SummaryCardsProp
       value: formatCurrency(summary.total),
       subtitle: `${expenseCount} expenses`,
       icon: DollarSign,
-      color: 'bg-indigo-500',
-      lightColor: 'bg-indigo-50',
-      textColor: 'text-indigo-700',
     },
     {
       title: 'This Month',
       value: formatCurrency(summary.monthlyTotal),
       subtitle: 'Current month',
       icon: Calendar,
-      color: 'bg-emerald-500',
-      lightColor: 'bg-emerald-50',
-      textColor: 'text-emerald-700',
     },
     {
       title: 'Top Category',
@@ -39,38 +33,30 @@ export default function SummaryCards({ summary, expenseCount }: SummaryCardsProp
         ? formatCurrency(summary.byCategory[summary.topCategory])
         : 'No data',
       icon: Tag,
-      color: 'bg-amber-500',
-      lightColor: 'bg-amber-50',
-      textColor: 'text-amber-700',
     },
     {
       title: 'Avg. Per Expense',
       value: expenseCount > 0 ? formatCurrency(summary.total / expenseCount) : '$0.00',
       subtitle: 'Average amount',
       icon: Receipt,
-      color: 'bg-rose-500',
-      lightColor: 'bg-rose-50',
-      textColor: 'text-rose-700',
     },
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
       {cards.map((card) => (
         <div
           key={card.title}
-          className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 hover:shadow-md transition-shadow"
+          className="bg-white rounded-2xl p-5 shadow-[0_2px_16px_rgba(0,0,0,0.06)] hover:shadow-[0_4px_24px_rgba(0,0,0,0.1)] transition-shadow duration-300"
         >
-          <div className="flex items-start justify-between">
-            <div>
-              <p className="text-sm font-medium text-slate-500">{card.title}</p>
-              <p className="mt-1 text-2xl font-bold text-slate-900 truncate">{card.value}</p>
-              <p className="mt-1 text-xs text-slate-400">{card.subtitle}</p>
+          <div className="flex items-start justify-between mb-3">
+            <div className="w-8 h-8 rounded-xl bg-[#f5f5f7] flex items-center justify-center">
+              <card.icon className="w-4 h-4 text-[#6e6e73]" />
             </div>
-            <div className={`${card.lightColor} p-2.5 rounded-xl`}>
-              <card.icon className={`w-5 h-5 ${card.textColor}`} />
-            </div>
+            <span className="text-xs font-medium text-[#a1a1a6]">{card.subtitle}</span>
           </div>
+          <p className="text-[13px] text-[#6e6e73]">{card.title}</p>
+          <p className="mt-0.5 text-2xl font-semibold text-[#1d1d1f] truncate tracking-tight">{card.value}</p>
         </div>
       ))}
     </div>
